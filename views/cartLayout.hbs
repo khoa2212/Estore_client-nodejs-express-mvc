@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/lib/slick/cart.css">
+</head>
+<body style="margin :0">
+
+    <!-- Top bar Start -->
+<div class="top-bar">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <i class="fa fa-envelope"></i>
+                support@email.com
+            </div>
+            <div class="col-sm-6">
+                <i class="fa fa-phone-alt"></i>
+                +012-345-6789
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Top bar End -->
+
+
+
+<!-- Nav Bar Start -->
+<div class="nav">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+            <a href="#" class="navbar-brand">MENU</a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                <div class="navbar-nav mr-auto">
+                    <a href="/" class="nav-item nav-link active">Home</a>
+                    <a href="/products" class="nav-item nav-link">Products</a>
+                    {{#if user}}
+                        <a href="/myAccount" class="nav-item nav-link">My Account</a>
+                        <a href="/changePassword" class="nav-item nav-link">Change Password</a>
+                        <a href="/cart" class="nav-item nav-link">Cart</a>
+                    {{/if}}
+                </div>
+                <div class="navbar-nav ml-auto">
+                    {{#if user}}
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{user.fullname}}</a>
+                            <div class="dropdown-menu">
+                                <a href="/logout" class="dropdown-item">Logout</a>
+                            </div>
+                        </div>
+                    {{else}}
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
+                            <div class="dropdown-menu">
+                                <a href="/auth" class="dropdown-item">Login</a>
+                                <a href="/auth/:1" class="dropdown-item">Register</a>
+                            </div>
+                        </div>
+                    {{/if}}
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+<!-- Nav Bar End -->
+
+
+<!-- Bottom Bar Start -->
+<div class="bottom-bar">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-3">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="/images/logo.png" alt="Logo">
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6">
+
+            </div>
+            <div class="col-md-3">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Bottom Bar End -->
+
+
+
+
+
+    <div class="container padding-bottom-3x mb-1">
+    <!-- Shopping Cart-->
+    <div class="table-responsive shopping-cart">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Tên sản phẩm </th>
+                    <th class="text-center">Số lượng</th>
+                    <th class="text-center">Giới tính</th>
+                    <th class="text-center">Giá</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#if cart}}
+                {{#each cart}}
+                
+                <tr>
+                    <td>
+                        <div class="product-item">
+                            {{'LOAI.TEN_LOAI'}} {{MAU}}  
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="count-input">
+                            {{SO_LUONG}}
+                        </div>
+                    </td>
+                    <td class="text-center text-lg text-medium">{{GIOI_TINH}}</td>
+                    <td class="text-center text-lg text-medium">{{GIA}}</td>
+                    <td class="text-center">
+                    <form  method="post" action="#" class="delete">
+                    <button value="submit" type="submit"> <a class="remove-from-cart" href="#" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="fa fa-trash"></i></a></button>
+                    <input type="hidden" name="giohang_id" value={{GIOHANG_ID}}>
+                    <input type="hidden" name="quanao_id" value={{QUANAO_ID}}>
+                     </form>
+
+                     <form method="post" action="/cart/remove" id="removeallcart">
+                     <input type="hidden" name="giohang_id1" value={{GIOHANG_ID}}>
+                     </form>
+
+                    </td>
+                
+                 
+                </tr>
+             {{/each}}
+             {{else}}
+                <tr>
+                    <div>Chưa có đơn hàng, hãy vào trang đơn hàng để mua </div>
+                </tr>
+            {{/if}}
+            </tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="shopping-cart-footer">
+        <div class="column">
+            <form class="coupon-form" action="#">
+                <input class="form-control form-control-sm" type="text" placeholder="Coupon code" required="">
+                <button class="btn btn-outline-primary btn-sm" type="submit">Apply Coupon</button>
+            </form>
+        </div>
+        <div class="column text-lg">Tổng tiền: <span class="text-medium">
+            {{#if total}}
+            {{total}}
+            {{/if}}
+            </span></div>
+    </div>
+    <div class="shopping-cart-footer">
+        <div class="column"><a class="btn btn-outline-secondary" href="/products"><i class="icon-arrow-left"></i>&nbsp;Back to Shopping</a></div>
+        <div class="column"><a class="btn btn-primary"  href="#" data-toast="" data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Your cart" data-toast-message="is updated successfully!">Cập nhật giỏ hàng</a><a class="btn btn-success btn-remove" href="#">Thanh toán</a></div>
+    </div>
+</div>
+
+<!-- Footer Start -->
+<div class="footer">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-widget">
+                    <h2>Get in Touch</h2>
+                    <div class="contact-info">
+                        <p><i class="fa fa-map-marker"></i>123 E Store, Los Angeles, USA</p>
+                        <p><i class="fa fa-envelope"></i>email@example.com</p>
+                        <p><i class="fa fa-phone"></i>+123-456-7890</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-widget">
+                    <h2>Follow Us</h2>
+                    <div class="contact-info">
+                        <div class="social">
+                            <a href=""><i class="fab fa-twitter"></i></a>
+                            <a href=""><i class="fab fa-facebook-f"></i></a>
+                            <a href=""><i class="fab fa-linkedin-in"></i></a>
+                            <a href=""><i class="fab fa-instagram"></i></a>
+                            <a href=""><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-widget">
+                    <h2>Company Info</h2>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Condition</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-widget">
+                    <h2>Purchase Info</h2>
+                    <ul>
+                        <li><a href="#">Pyament Policy</a></li>
+                        <li><a href="#">Shipping Policy</a></li>
+                        <li><a href="#">Return Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row payment align-items-center">
+            <div class="col-md-6">
+                <div class="payment-method">
+                    <h2>We Accept:</h2>
+                    <img src="/images/payment-method.png" alt="Payment Method" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="payment-security">
+                    <h2>Secured By:</h2>
+                    <img src="/images/godaddy.svg" alt="Payment Security" />
+                    <img src="/images/norton.svg" alt="Payment Security" />
+                    <img src="/images/ssl.svg" alt="Payment Security" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer End -->
+
+<!-- Footer Bottom Start -->
+<div class="footer-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 copyright">
+                <p>Copyright &copy; <a href="https://htmlcodex.com">HTML Codex</a>. All Rights Reserved</p>
+            </div>
+
+            <div class="col-md-6 template-by">
+                <p>Template By <a href="https://htmlcodex.com">HTML Codex</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer Bottom End -->
+
+
+
+
+</body>
+
+
+
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<script src="/lib/slick/cart.js"></script>
+<script src="/lib/easing/easing.min.js"></script>
+<script src="/lib/slick/slick.min.js"></script>
+
+<!-- Template Javascript -->
+<script src="/javascripts/main.js"></script>
+</html>
